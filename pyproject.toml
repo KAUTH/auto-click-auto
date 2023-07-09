@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "auto-click-auto"
+version = "0.1.0-alpha.1"
+description = "Automatically enable tab autocompletion for shells in Click CLI applications."
+authors = ["Konstantinos Papadopoulos <konpap1996@yahoo.com>"]
+maintainers = ["Konstantinos Papadopoulos <konpap1996@yahoo.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/KAUTH/auto-click-auto"
+repository = "https://github.com/KAUTH/auto-click-auto"
+documentation = "https://github.com/KAUTH/auto-click-auto/blob/main/README.md"
+keywords = ["click", "autocomplete", "shell"]
+classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Natural Language :: English",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11 ",
+        "Programming Language :: Python :: Implementation :: PyPy",
+        "Topic :: Software Development",
+]
+packages = [{include = "auto_click_auto"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+click = "^8.1.4"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.4.1"
+
+[[tool.mypy.overrides]]
+module = ["click"]
+ignore_missing_imports = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

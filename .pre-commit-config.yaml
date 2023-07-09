@@ -1,0 +1,24 @@
+exclude: ^(tests/)
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+  - id: check-added-large-files
+  - id: end-of-file-fixer
+    files: pre_commit_git_checks/
+  - id: trailing-whitespace
+- repo: https://github.com/PyCQA/isort
+  # This is the latest revision that runs with as low as Python 3.7.0
+  rev: 5.11.5
+  hooks:
+  - id: isort
+    args: [-l=79, --profile=black, "."]
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.9.0
+  hooks:
+  - id: pyupgrade
+    args: [--py37-plus]
+- repo: https://github.com/jorisroovers/gitlint
+  rev: v0.19.1
+  hooks:
+  - id: gitlint
