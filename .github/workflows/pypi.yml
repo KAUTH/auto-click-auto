@@ -33,13 +33,6 @@ jobs:
     - name: Check distribution's long description rendering on PyPI
       run: twine check dist/*
 
-    - name: Publish package to TestPyPI
-      if: github.repository == 'KAUTH/auto-click-auto'
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: https://test.pypi.org/legacy/
-        verbose: true
-
     - name: Publish package to PyPI
       if: github.repository == 'KAUTH/auto-click-auto'
       uses: pypa/gh-action-pypi-publish@release/v1
