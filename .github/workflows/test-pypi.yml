@@ -37,5 +37,5 @@ jobs:
       if: github.repository == 'KAUTH/auto-click-auto'
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
-        repository_url: https://test.pypi.org/legacy/
+        repository-url: https://test.pypi.org/legacy/
         verbose: true
