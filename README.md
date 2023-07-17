@@ -139,6 +139,9 @@ In summary, `auto-click-auto`:
 - Comes ready with ways to add shell completion as a command option or subcommand
 - Has simple examples of how to quickly use the library
 
+## Changelog
+https://github.com/KAUTH/auto-click-auto/blob/main/CHANGELOG.md
+
 ## Contributing
 You can always submit a PR if you want to suggest improvements or fix issues.
 Check out the open issues at https://github.com/KAUTH/auto-click-auto/issues.
