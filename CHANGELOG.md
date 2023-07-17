@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add tests for QA
 
+## [0.1.0-alpha.2] - 2023-07-17
+
+### Changed
+
+- Function `enable_click_shell_completion` now has the `shells` positional argument set by default to `None`
+
 ## [0.1.0-alpha.1] - 2023-07-17
 
 ### Added
