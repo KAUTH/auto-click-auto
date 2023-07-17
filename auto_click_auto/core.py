@@ -20,7 +20,7 @@ FC = TypeVar("FC", bound=Union[_AnyCallable, Command])
 
 def enable_click_shell_completion(
     program_name: str,
-    shells: Optional[Set[ShellType]],
+    shells: Optional[Set[ShellType]] = None,
     verbose: Optional[bool] = False,
 ) -> None:
     """

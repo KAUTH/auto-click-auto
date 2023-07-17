@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "auto-click-auto"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 description = "Automatically enable tab autocompletion for shells in Click CLI applications."
 authors = ["Konstantinos Papadopoulos <konpap1996@yahoo.com>"]
 maintainers = ["Konstantinos Papadopoulos <konpap1996@yahoo.com>"]
