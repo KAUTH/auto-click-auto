@@ -15,3 +15,12 @@ class ShellTypeNotSupportedError(AutoClickAutoError):
     """Exception raised when the shell type is not supported."""
 
     pass
+
+
+class ShellEnvVarNotFoundError(AutoClickAutoError):
+    """
+    Exception raised when the shell type cannot be inferred from the `SHELL`
+    environment variable.
+    """
+
+    pass

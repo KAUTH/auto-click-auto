@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, Callable, Optional, Set, TypeVar, Union
 from click import Command, Context, Parameter, option
 
 from .constants import ShellType
-from .exceptions import ShellTypeNotSupportedError
+from .exceptions import ShellEnvVarNotFoundError, ShellTypeNotSupportedError
 from .utils import add_shell_configuration, detect_shell
 
 if TYPE_CHECKING:
@@ -60,7 +60,7 @@ def enable_click_shell_completion(
         try:
             shells = {detect_shell()}
 
-        except ShellTypeNotSupportedError as err:
+        except (ShellTypeNotSupportedError, ShellEnvVarNotFoundError) as err:
             if verbose is True:
                 print(err)
 
