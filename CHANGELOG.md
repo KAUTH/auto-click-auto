@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add tests for QA
 
+## [0.1.0-alpha.4] - 2023-07-26
+
+### Fixed
+
+- Handle exception when `auto-click-auto` cannot infer the shell type from the `SHELL` environment variable
+
 ## [0.1.0-alpha.3] - 2023-07-17
 
 ### Added
