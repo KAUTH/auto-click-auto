@@ -4,6 +4,7 @@ from typing import List, Optional
 from auto_click_auto.constants import ShellType
 from auto_click_auto.exceptions import (
     ShellConfigurationFileNotFoundError,
+    ShellEnvVarNotFoundError,
     ShellTypeNotSupportedError,
 )
 
@@ -82,7 +83,14 @@ def add_shell_configuration(
 
 
 def detect_shell() -> ShellType:
-    shell_env_var = os.environ["SHELL"]
+    try:
+        shell_env_var = os.environ["SHELL"]
+
+    except KeyError:
+        raise ShellEnvVarNotFoundError(
+            "Could not infer the shell type from the 'SHELL' environment "
+            "variable."
+        )
 
     try:
         shell_value = shell_env_var.split("/")[-1]
