@@ -9,6 +9,27 @@ from auto_click_auto.exceptions import (
 )
 
 
+def create_file(file_path: str) -> None:
+    """
+    Check if the file and the directories of the given file path exist and if
+    not create them.
+
+    :param file_path: The path of the file the check and creation is done for.
+    :return: `None`
+    """
+
+    if not os.path.exists(file_path):
+        directory = os.path.dirname(file_path)
+
+        if not os.path.exists(directory):
+            # Recursive directory creation
+            os.makedirs(directory)
+
+        # Open for exclusive creation, failing if the file already exists
+        with open(file_path, 'x'):
+            pass
+
+
 def check_strings_in_file(file_path: str, search_strings: List[str]) -> bool:
     """
     Check if the given search strings are in the specified file.
