@@ -6,7 +6,7 @@ from click import Command, Context, Parameter, option
 
 from .constants import ShellType
 from .exceptions import ShellEnvVarNotFoundError, ShellTypeNotSupportedError
-from .utils import add_shell_configuration, detect_shell
+from .utils import add_shell_configuration, create_file, detect_shell
 
 if TYPE_CHECKING:
     import typing_extensions as te
@@ -86,6 +86,12 @@ def enable_click_shell_completion(
             completer_script_path = os.path.expanduser(
                 f"~/.config/fish/completions/{program_name}.{shell}"
             )
+
+            # bash and zsh config files are generic, so we can assume the user
+            # already has created them. fish's shell configuration file for
+            # custom completions is specific to the program name, so we will
+            # create it if it doesn't already exist.
+            create_file(file_path=completer_script_path)
 
             # Completion implementation: `eval` command in shell configuration
             eval_command = (
