@@ -83,6 +83,16 @@ def add_shell_configuration(
 
 
 def detect_shell() -> ShellType:
+    """
+    Attempt to detect the shell type using the `SHELL` environment variable.
+
+    :raise ShellEnvVarNotFoundError: When the `SHELL` environment variable is
+    not set in the system.
+    :raise ShellTypeNotSupportedError: When the shell value returned from the
+    `SHELL` environment variable does not belong to one of the supported
+    shells.
+    """
+
     try:
         shell_env_var = os.environ["SHELL"]
 
