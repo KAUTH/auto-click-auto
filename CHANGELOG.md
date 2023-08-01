@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add tests for QA
 
+## [0.1.0-alpha.5] - 2023-08-02
+
+### Added
+
+- The fish configuration file for custom completions, ~/.config/fish/completions/{program_name}.fish
+(notice it's specific to the program name), is created if it doesn't already exist. ~/.bashrc and
+~/.zshrc configuration files, which are used to set up shell completion, are generic and we can assume
+the users have already created them.
+
 ## [0.1.0-alpha.4] - 2023-07-26
 
 ### Fixed
