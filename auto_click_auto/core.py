@@ -43,7 +43,7 @@ def enable_click_shell_completion(
     """
 
     # Check that the program is run on one of the supported Operating Systems
-    supported_os = ("Linux", "MacOS")
+    supported_os = ("Linux", "MacOS", "Darwin")
     os_name = platform.system()
     if os_name not in supported_os:
         if verbose is True:
