@@ -33,7 +33,8 @@ def enable_click_shell_completion(
     `auto-click-auto` is using the `eval` command implementation suggested from
     Click.
 
-    :param program_name: The program name for which we enable shell completion.
+    :param program_name: The program name for which we enable shell completion,
+    also described as the executable name.
     :param shells: The shell types for which we want to add tab completion
     support.
     :param verbose: `True` to print more details regarding the enabling,
@@ -54,7 +55,7 @@ def enable_click_shell_completion(
 
         return None
 
-    click_env_var = f"_{program_name.upper()}_COMPLETE"
+    click_env_var = f"_{program_name.upper().replace('-', '_')}_COMPLETE"
 
     if shells is None:
         try:
@@ -129,7 +130,8 @@ def enable_click_shell_completion_option(
 
     :param param_decls: One or more option names. Defaults to the single value
     ``"--autocomplete"``.
-    :param program_name: The program name for which we enable shell completion.
+    :param program_name: The program name for which we enable shell completion,
+    also described as the executable name.
     :param shells: The shell types for which we want to add tab completion
     support.
     :param kwargs: Extra arguments are passed to :func:`option`.
