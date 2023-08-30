@@ -94,14 +94,12 @@ def enable_click_shell_completion(
             # create it if it doesn't already exist.
             create_file(file_path=completer_script_path)
 
-            # Completion implementation: `eval` command in shell configuration
-            eval_command = (
-                f"eval (env {click_env_var}={shell.value}_source "
-                f"{program_name})"
+            command = (
+                f"{click_env_var}={shell.value}_source {program_name} | source"
             )
             add_shell_configuration(
                 shell_config_file=completer_script_path,
-                config_string=eval_command,
+                config_string=command,
                 verbose=verbose,
             )
 
