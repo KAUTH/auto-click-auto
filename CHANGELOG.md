@@ -7,7 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Add tests for QA
+## [0.1.0] - 2023-08-31
+
+### Added
+
+- Functional testing for Ubuntu environments
+
+### Fixed
+
+- Program names with "-" were not correctly added to shell autocomplete configurations
+- click's [fix](https://github.com/pallets/click/issues/2567) for fish autocomplete not working on click 8.1.4
 
 ## [0.1.0-alpha.5] - 2023-08-02
 
