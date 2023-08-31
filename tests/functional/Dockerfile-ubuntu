@@ -1,0 +1,67 @@
+# Dockerfile for functional testing of `auto-click-auto`
+
+# Base test image to re-use for each test
+FROM python:3.10-slim-buster as base_test_env
+
+RUN apt-get update && apt-get install -y vim zsh fish
+COPY . /opt/auto-click-auto/
+WORKDIR /opt/auto-click-auto
+
+RUN pip install -e .
+
+FROM base_test_env as test_example_1
+RUN echo "Current login shell is $SHELL" \
+    && echo "John Doe" | python3 examples/example_1.py \
+    && grep 'eval "\$(_EXAMPLE_1_COMPLETE=bash_source example-1)"' ~/.bashrc \
+    && echo "~/.bashrc file is correct..." \
+    && grep '_EXAMPLE_1_COMPLETE=fish_source example-1 | source' ~/.config/fish/completions/example-1.fish \
+    && echo "fish config file is correct..." \
+    && touch ~/.zshrc \
+    && ! grep -q 'eval "\$(_EXAMPLE_2_COMPLETE=zsh_source example-2)"' ~/.zshrc || { echo "Completion added"; exit 1; }
+
+FROM base_test_env as test_example_2_bash
+RUN echo "Current login shell is $SHELL" \
+    # We need to export the env variable otherwise we can't get it with
+    # Python's `os.environ["SHELL"]`.
+    && export SHELL=/bin/bash \
+    && python3 examples/example_2.py --autocomplete \
+    && grep 'eval "\$(_EXAMPLE_2_COMPLETE=bash_source example-2)"' ~/.bashrc \
+    && echo "~/.bashrc file is correct..." \
+    && touch ~/.zshrc \
+    && ! grep -q 'eval "\$(_EXAMPLE_2_COMPLETE=zsh_source example-2)"' ~/.zshrc || { echo "Completion added"; exit 1; } \
+    && if [ -e "~/.config/fish/completions/example-2.fish" ]; then echo "File exists"; exit 1; fi
+
+FROM base_test_env as test_example_2_zsh
+RUN echo "Current login shell is $SHELL" \
+    && touch ~/.zshrc \
+    # We need to export the env variable otherwise we can't get it with
+    # Python's `os.environ["SHELL"]`.
+    && export SHELL=/bin/zsh \
+    && python3 examples/example_2.py --autocomplete \
+    && grep 'eval "\$(_EXAMPLE_2_COMPLETE=zsh_source example-2)"' ~/.zshrc \
+    && echo "~/.zshrc file is correct..." \
+    && ! grep -q 'eval "\$(_EXAMPLE_2_COMPLETE=bash_source example-2)"' ~/.bashrc || { echo "Completion added"; exit 1; } \
+    && if [ -e "~/.config/fish/completions/example-2.fish" ]; then echo "File exists"; exit 1; fi
+
+FROM base_test_env as test_example_2_fish
+RUN echo "Current login shell is $SHELL" \
+    && touch ~/.zshrc \
+    # We need to export the env variable otherwise we can't get it with
+    # Python's `os.environ["SHELL"]`.
+    && export SHELL=/usr/bin/fish \
+    && python3 examples/example_2.py --autocomplete \
+    && grep '_EXAMPLE_2_COMPLETE=fish_source example-2 | source' ~/.config/fish/completions/example-2.fish \
+    && echo "fish config file is correct..." \
+    && ! grep -q 'eval "\$(_EXAMPLE_2_COMPLETE=bash_source example-2)"' ~/.bashrc || { echo "Completion added"; exit 1; } \
+    && ! grep -q 'eval "\$(_EXAMPLE_2_COMPLETE=zsh_source example-2)"' ~/.zshrc || { echo "Completion added"; exit 1; }
+
+FROM base_test_env as test_example_3
+RUN echo "Current login shell is $SHELL" \
+    && touch ~/.zshrc \
+    && python3 examples/example_3.py config shell-completion \
+    && grep 'eval "\$(_EXAMPLE_3_COMPLETE=bash_source example-3)"' ~/.bashrc \
+    && echo "~/.bashrc file is correct..." \
+    && grep 'eval "\$(_EXAMPLE_3_COMPLETE=zsh_source example-3)"' ~/.zshrc \
+    && echo "~/.zshrc file is correct..." \
+    && grep '_EXAMPLE_3_COMPLETE=fish_source example-3 | source' ~/.config/fish/completions/example-3.fish \
+    && echo "fish config file is correct..."   
