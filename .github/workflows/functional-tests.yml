@@ -1,0 +1,15 @@
+name: Functional tests
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Run functional tests on Ubuntu environment
+      run: docker build . -f tests/functional/Dockerfile-ubuntu -t click-test-ubuntu
