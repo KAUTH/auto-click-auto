@@ -1,3 +1,8 @@
+![PyPI - Downloads](https://img.shields.io/pypi/dm/auto-click-auto)
+[![Functional Tests](https://github.com/KAUTH/auto-click-auto/workflows/Functional%20tests/badge.svg)](https://github.com/KAUTH/auto-click-auto/actions/workflows/functional-tests.yml?query=workflow%3A%22Functional+tests%22)
+[![pypi](https://img.shields.io/pypi/v/auto-click-auto.svg)](https://pypi.python.org/pypi/auto-click-auto)
+[![GitHub license](https://img.shields.io/github/license/KAUTH/auto-click-auto)](https://github.com/KAUTH/auto-click-auto/blob/master/LICENSE)
+
 # auto-click-auto
 Automatically enable tab autocompletion for shells in Click CLI applications.
 
