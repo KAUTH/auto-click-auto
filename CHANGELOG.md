@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2023-12-17
+
+### Fixed
+
+- To avoid race conditions (e.g., when running parallel tests) we handle whether a file
+exists at the proper moment so that we don't crash when attempting to create configuration
+files that already exist (#11)
+
 ## [0.1.1] - 2023-08-31
 
 ### Fixed
