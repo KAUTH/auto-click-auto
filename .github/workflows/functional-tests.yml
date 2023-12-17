@@ -7,9 +7,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.9", "3.10", "3.11"]
 
     steps:
     - uses: actions/checkout@v3
 
     - name: Run functional tests on Ubuntu environment
-      run: docker build . -f tests/functional/Dockerfile-ubuntu -t click-test-ubuntu
+      run: docker build . -f tests/functional/Dockerfile-ubuntu --build-arg PYTHON_VERSION=${{ matrix.python-version }} -t click-test-ubuntu
