@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.4] - 2024-01-15
 
+### Added
+
+- Parametrized functional testing for Ubuntu environments for Python 3.9, 3.10, 3.11 (https://github.com/KAUTH/auto-click-auto/pull/10)
+
 ### Fixed
 
 - Autocomplete did not work properly for Python 3.11 environments.
