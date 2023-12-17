@@ -23,10 +23,16 @@ def create_file(file_path: str) -> None:
 
         if not os.path.exists(directory):
             # Recursive directory creation
-            os.makedirs(directory)
+            os.makedirs(directory, exist_ok=True)
 
-        # Open for exclusive creation, failing if the file already exists
-        with open(file_path, 'x'):
+        try:
+            # Open for exclusive creation
+            with open(file_path, 'x'):
+                pass
+
+        # To avoid race conditions we handle here as well whether the file
+        # exists.
+        except FileExistsError:
             pass
 
 
