@@ -1,7 +1,9 @@
 # Dockerfile for functional testing of `auto-click-auto`
 
+ARG PYTHON_VERSION=3.10
+
 # Base test image to re-use for each test
-FROM python:3.10-slim-buster as base_test_env
+FROM python:${PYTHON_VERSION}-slim-buster as base_test_env
 
 RUN apt-get update && apt-get install -y vim zsh fish
 COPY . /opt/auto-click-auto/
