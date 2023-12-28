@@ -60,9 +60,9 @@ def check_strings_in_file(file_path: str, search_strings: List[str]) -> bool:
 
 
 def add_shell_configuration(
-        shell_config_file: str,
-        config_string: str,
-        verbose: Optional[bool] = False
+    shell_config_file: str,
+    config_string: str,
+    verbose: Optional[bool] = False,
 ) -> None:
     """
     Add the given configuration in the specified shell configuration file, if
@@ -77,7 +77,7 @@ def add_shell_configuration(
 
     try:
         string_in_file = check_strings_in_file(
-                file_path=shell_config_file, search_strings=[config_string]
+            file_path=shell_config_file, search_strings=[config_string]
         )
     except ShellConfigurationFileNotFoundError as err:
         if verbose is True:
@@ -90,12 +90,13 @@ def add_shell_configuration(
             f"Adding tab autocomplete configuration in {shell_config_file} ..."
         )
 
-        os.system(
-            "echo '# Shell completion configuration for the Click Python "
-            f"package' >> {shell_config_file}"
-        )
-        # Source the file in the shell config file
-        os.system(f"echo '{config_string}' >> {shell_config_file}")
+        with open(shell_config_file, "a") as file:
+            file.write(
+                "\n\n# Shell completion configuration for the Click Python " +
+                "package"
+            )
+            # Source the file in the shell config file
+            file.write(f"\n{config_string}")
 
         print(
             "Restart or create a new shell session for the changes to take "
