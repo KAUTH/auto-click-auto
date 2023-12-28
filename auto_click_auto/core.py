@@ -6,7 +6,12 @@ from click import Command, Context, Parameter, option
 
 from .constants import ShellType
 from .exceptions import ShellEnvVarNotFoundError, ShellTypeNotSupportedError
-from .utils import add_shell_configuration, create_file, detect_shell
+from .utils import (
+    add_shell_configuration,
+    create_file,
+    detect_shell,
+    remove_shell_configuration,
+)
 
 if TYPE_CHECKING:
     import typing_extensions as te
@@ -77,9 +82,24 @@ def enable_click_shell_completion(
                 f'eval \"$({click_env_var}={shell.value}_source '
                 f'{program_name})\"'
             )
+            safe_eval_command =(
+                f"command -v {program_name} > /dev/null 2>&1 && "
+                f"{eval_command}"
+            )
+
+            old_config_string = (
+                "# Shell completion configuration for the Click Python " +
+                "package\n" + f"{eval_command}"
+            )
+            remove_shell_configuration(
+                shell_config_file=shell_config_file,
+                config_string=old_config_string,
+                verbose=verbose
+            )
+
             add_shell_configuration(
                 shell_config_file=shell_config_file,
-                config_string=eval_command,
+                config_string=safe_eval_command,
                 verbose=verbose,
             )
 
@@ -97,9 +117,24 @@ def enable_click_shell_completion(
             command = (
                 f"{click_env_var}={shell.value}_source {program_name} | source"
             )
+            safe_command = (
+                f"command -v {program_name} > /dev/null 2>&1 && "
+                f"{command}"
+            )
+
+            old_config_string = (
+                "# Shell completion configuration for the Click Python " +
+                "package\n" + f"{command}"
+            )
+            remove_shell_configuration(
+                shell_config_file=completer_script_path,
+                config_string=old_config_string,
+                verbose=verbose,
+            )
+
             add_shell_configuration(
                 shell_config_file=completer_script_path,
-                config_string=command,
+                config_string=safe_command,
                 verbose=verbose,
             )
 
