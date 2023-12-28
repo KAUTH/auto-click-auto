@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2023-12-28
+
+### Fixed
+
+- `auto-click-auto` now adds a check in the shell configuration for whether the program is
+executable. This will keep shell sessions free from "command not found" errors when
+the autocompleted program is not installed system-wide. This fix also removes old
+configuration from the relevant shell config files (https://github.com/KAUTH/auto-click-auto/issues/12)
+
 ## [0.1.2] - 2023-12-17
 
 ### Fixed
