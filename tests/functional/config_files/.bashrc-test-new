@@ -1,0 +1,17 @@
+# Example .bashrc config file
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+
+
+# Define some colors first:
+red='\e[0;31m'
+RED='\e[1;31m'
+blue='\e[0;34m'
+
+# Shell completion configuration for the Click Python package
+command -v example-2 > /dev/null 2>&1 && eval "$(_EXAMPLE_2_COMPLETE=bash_source example-2)"
