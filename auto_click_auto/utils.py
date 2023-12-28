@@ -59,6 +59,87 @@ def check_strings_in_file(file_path: str, search_strings: List[str]) -> bool:
         )
 
 
+def remove_shell_configuration(
+    shell_config_file: str,
+    config_string: str,
+    verbose: Optional[bool] = False
+) -> None:
+    """
+    Remove the given string from the specified shell configuration file.
+    This function is used to clean files from configuration added by
+    `auto-click-auto`.
+
+    :param shell_config_file: The shell configuration file to remove the string
+    from.
+    :param config_string: The desired configuration string to be removed. This
+    string will be split based on the newline characters and used to match
+    them in their order. The last splitted text will be searched for with and
+    without newline.
+    :param verbose: `True` to print whether the configuration is removed from
+    the file, `False` otherwise.
+    """
+
+    delimiter = "\n"
+    lines_to_remove = config_string.split(delimiter)
+    number_lines_to_remove = len(lines_to_remove)
+
+    if number_lines_to_remove == 0:
+        return None
+
+    try:
+        strings_in_file = check_strings_in_file(
+            file_path=shell_config_file, search_strings=lines_to_remove
+        )
+    except ShellConfigurationFileNotFoundError as err:
+        if verbose is True:
+            print(err)
+
+        return None
+
+    # Check if any of the strings exist, independent of order, and exit early
+    # if not.
+    if strings_in_file is False:
+        return None
+
+    with open(shell_config_file) as file:
+        lines = file.readlines()
+
+    lines_to_remove_with_delimeter = [
+        line + delimiter for line in lines_to_remove
+    ]
+    # Keep the delimeter for the last splitted part.
+    lines_to_remove_ends_without_delimeter = [
+        line + delimiter
+        if index < (number_lines_to_remove - 1) else line
+        for index, line in enumerate(lines_to_remove)
+    ]
+
+    new_lines = [""]
+    i = 0
+
+    while i < len(lines):
+        if (
+            lines[i:i + number_lines_to_remove] ==
+            lines_to_remove_with_delimeter
+            or
+            lines[i:i + number_lines_to_remove] ==
+            lines_to_remove_ends_without_delimeter
+        ):
+            # Skip the lines that match the sequence.
+            i += number_lines_to_remove
+            print(
+                "Removing old tab autocomplete configuration from " +
+                f"{shell_config_file} ..."
+            )
+        else:
+            new_lines.append(lines[i])
+            i += 1
+
+    if len(new_lines) > 0:
+        with open(shell_config_file, 'w') as file:
+            file.writelines(new_lines)
+
+
 def add_shell_configuration(
     shell_config_file: str,
     config_string: str,
