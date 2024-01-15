@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2024-01-15
+
+### Fixed
+
+- Autocomplete did not work properly for Python 3.11 environments.
+Users can manually delete incorrectly created fish configuration file
+~/.config/fish/completions/{program_name}.ShellType.FISH, created from this
+bug (https://github.com/KAUTH/auto-click-auto/issues/9)
+
 ## [0.1.3] - 2023-12-28
 
 ### Fixed
