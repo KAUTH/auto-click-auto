@@ -75,7 +75,7 @@ def enable_click_shell_completion(
     for shell in shells:
 
         if shell in (ShellType.BASH, ShellType.ZSH):
-            shell_config_file = os.path.expanduser(f"~/.{shell}rc")
+            shell_config_file = os.path.expanduser(f"~/.{shell.value}rc")
 
             # Completion implementation: `eval` command in shell configuration
             eval_command = (
@@ -105,7 +105,7 @@ def enable_click_shell_completion(
 
         elif shell == ShellType.FISH:
             completer_script_path = os.path.expanduser(
-                f"~/.config/fish/completions/{program_name}.{shell}"
+                f"~/.config/fish/completions/{program_name}.{shell.value}"
             )
 
             # bash and zsh config files are generic, so we can assume the user
