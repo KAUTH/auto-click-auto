@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.5] - 2024-06-26
+
+### Changed
+
+- Explicitly export `enable_click_shell_completion` and `enable_click_shell_completion_option`
+functions. This way, we comply with the "no-implicit-reexport" strictness in type checking
+when importing these functions (https://github.com/KAUTH/auto-click-auto/pull/14)
+Functionality has not changed.
+
 ## [0.1.4] - 2024-01-15
 
 ### Added
