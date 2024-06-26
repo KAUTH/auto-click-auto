@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y vim zsh fish
 COPY . /opt/auto-click-auto/
 WORKDIR /opt/auto-click-auto
 
-RUN pip install -e .
+RUN pip install .
 
 # Test adding autocompletion for bash and fish
 FROM base_test_env as test_example_1
