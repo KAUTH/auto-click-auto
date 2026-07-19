@@ -33,6 +33,7 @@ click = "^8.1.4"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.4.1"
+pytest = ">=7.4,<8.0"
 
 [[tool.mypy.overrides]]
 module = ["click"]
