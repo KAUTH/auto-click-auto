@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-07-20
+
+### Added
+
+- Unit tests for shell configuration removal.
+
+### Fixed
+
+- Shell configuration removal now only rewrites configuration files when an exact autocomplete
+configuration block is removed, avoiding file corruption from substring-only matches and
+preserving files when no matching block exists (https://github.com/KAUTH/auto-click-auto/issues/16).
+
 ## [0.1.5] - 2024-06-26
 
 ### Changed
