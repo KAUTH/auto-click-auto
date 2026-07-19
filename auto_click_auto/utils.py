@@ -87,22 +87,15 @@ def remove_shell_configuration(
         return None
 
     try:
-        strings_in_file = check_strings_in_file(
-            file_path=shell_config_file, search_strings=lines_to_remove
-        )
-    except ShellConfigurationFileNotFoundError as err:
+        with open(shell_config_file) as file:
+            lines = file.readlines()
+    except FileNotFoundError:
         if verbose is True:
-            print(err)
+            print(
+                f"The {shell_config_file} configuration file does not exist."
+            )
 
         return None
-
-    # Check if any of the strings exist, independent of order, and exit early
-    # if not.
-    if strings_in_file is False:
-        return None
-
-    with open(shell_config_file) as file:
-        lines = file.readlines()
 
     lines_to_remove_with_delimeter = [
         line + delimiter for line in lines_to_remove
@@ -114,7 +107,8 @@ def remove_shell_configuration(
         for index, line in enumerate(lines_to_remove)
     ]
 
-    new_lines = [""]
+    new_lines = []
+    removed = False
     i = 0
 
     while i < len(lines):
@@ -127,6 +121,7 @@ def remove_shell_configuration(
         ):
             # Skip the lines that match the sequence.
             i += number_lines_to_remove
+            removed = True
             print(
                 "Removing old tab autocomplete configuration from " +
                 f"{shell_config_file} ..."
@@ -135,7 +130,9 @@ def remove_shell_configuration(
             new_lines.append(lines[i])
             i += 1
 
-    if len(new_lines) > 0:
+    # Only rewrite the file if lines were actually removed, to avoid needless
+    # (and potentially failing) writes on files protected against overwriting.
+    if removed:
         with open(shell_config_file, 'w') as file:
             file.writelines(new_lines)
 
