@@ -15,9 +15,9 @@ jobs:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
         python-version: "3.11"
 
@@ -36,4 +36,3 @@ jobs:
     - name: Publish package to PyPI
       if: github.repository == 'KAUTH/auto-click-auto'
       uses: pypa/gh-action-pypi-publish@release/v1
-

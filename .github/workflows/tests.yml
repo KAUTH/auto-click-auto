@@ -10,17 +10,27 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        python-versions: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        include:
+          - python-version: "3.7"
+            tox-env: py37
+          - python-version: "3.8"
+            tox-env: py38
+          - python-version: "3.9"
+            tox-env: py39
+          - python-version: "3.10"
+            tox-env: py310
+          - python-version: "3.11"
+            tox-env: py311
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-versions }}
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v6
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v6
       with:
-        python-version: ${{ matrix.python-versions }}
+        python-version: ${{ matrix.python-version }}
 
     - name: Install pip, tox
       run: |
@@ -28,4 +38,8 @@ jobs:
         pip install tox
 
     - name: Run Python tests
-      run: make all-tests
+      run: tox -r -e ${{ matrix.tox-env }}
+
+    - name: Run lint and typing checks
+      if: matrix.python-version == '3.11'
+      run: tox -r -e lint,typing
