@@ -3,16 +3,18 @@
 ARG PYTHON_VERSION=3.10
 
 # Base test image to re-use for each test
-FROM python:${PYTHON_VERSION}-slim-buster as base_test_env
+FROM python:${PYTHON_VERSION}-slim-bookworm AS base_test_env
 
-RUN apt-get update && apt-get install -y vim zsh fish
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends vim zsh fish \
+    && rm -rf /var/lib/apt/lists/*
 COPY . /opt/auto-click-auto/
 WORKDIR /opt/auto-click-auto
 
 RUN pip install .
 
 # Test adding autocompletion for bash and fish
-FROM base_test_env as test_example_1
+FROM base_test_env AS test_example_1
 RUN echo "Current login shell is $SHELL" \
     && touch ~/.zshrc \
     && echo "John Doe" | python3 examples/example_1.py \
@@ -26,7 +28,7 @@ RUN echo "Current login shell is $SHELL" \
     && ! grep -q 'command -v example-1 > /dev/null 2>&1 && eval "\$(_EXAMPLE_1_COMPLETE=zsh_source example-1)"' ~/.zshrc || { echo "Completion should not haven be added"; exit 1; }
 
 # Test adding autocompletion with default option and autodetect with bash
-FROM base_test_env as test_example_2_bash
+FROM base_test_env AS test_example_2_bash
 RUN echo "Current login shell is $SHELL" \
     && touch ~/.zshrc \
     # We need to export the env variable otherwise we can't get it with
@@ -44,7 +46,7 @@ RUN echo "Current login shell is $SHELL" \
     && if [ -e "~/.config/fish/completions/example-2.fish" ]; then echo "File should not exist"; exit 1; fi
 
 # Test adding autocompletion with default option and autodetect with zsh
-FROM base_test_env as test_example_2_zsh
+FROM base_test_env AS test_example_2_zsh
 RUN echo "Current login shell is $SHELL" \
     && touch ~/.zshrc \
     # We need to export the env variable otherwise we can't get it with
@@ -62,7 +64,7 @@ RUN echo "Current login shell is $SHELL" \
     && if [ -e "~/.config/fish/completions/example-2.fish" ]; then echo "File should not exist"; exit 1; fi
 
 # Test adding autocompletion with default option and autodetect with fish
-FROM base_test_env as test_example_2_fish
+FROM base_test_env AS test_example_2_fish
 RUN echo "Current login shell is $SHELL" \
     && touch ~/.zshrc \
     && mkdir -p ~/.config/fish/completions/ \
@@ -81,7 +83,7 @@ RUN echo "Current login shell is $SHELL" \
     && ! grep -q 'command -v example-2 > /dev/null 2>&1 && eval "\$(_EXAMPLE_2_COMPLETE=zsh_source example-2)"' ~/.zshrc || { echo "Completion should not haven be added"; exit 1; }
 
 # Test adding autocompletion for bash, zsh, fish
-FROM base_test_env as test_example_3
+FROM base_test_env AS test_example_3
 RUN echo "Current login shell is $SHELL" \
     && touch ~/.zshrc \
     && python3 examples/example_3.py config shell-completion \
